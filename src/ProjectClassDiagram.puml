@@ -1,0 +1,688 @@
+@startuml
+abstract class object.OBJ {
+# int worldX
+# int z
+# boolean isDestroyed
+# boolean isVisible
+# GamePanel gp
++ int getZ()
++ void setZ(int)
++ void setVisible(boolean)
++ boolean isVisible()
++ boolean isDestroyed()
++ void setDestroyed(boolean)
++ int getWorldX()
++ void setWorldX(int)
++ int getWorldY()
++ void setWorldY(int)
+}
+class config.Config {
++ {static} int originalTileSize
++ {static} int scale
++ {static} int tileSize
++ {static} int maxColScreen
++ {static} int maxRowScreen
++ {static} int screenWidth
++ {static} int screenHeight
++ {static} int maxWorldCol
++ {static} int maxWorldRow
++ {static} int inventorySize
++ {static} int fixedPosition
++ {static} int day
++ {static} Image sunPic
++ {static} Image moonPic
+}
+class object.potion.SpeedPotion {
++ <<Create>> SpeedPotion()
++ void use(Player)
+}
+class panel.GameOverPane {
++ {static} void gameOver()
+}
+class object.potion.StrengthPotion {
++ <<Create>> StrengthPotion()
++ void use(Player)
+}
+class object.potion.HealthPotion {
++ <<Create>> HealthPotion()
++ void use(Player)
+}
+class logic.GameLogic {
+- int day
+- int spawnCounter
+- int slimeCounter
+- List<OBJ> gameObjectContainer
++ ObjectSetter objectSetter
++ CollisionChecker collisionChecker
+- Player player
++ {static} ArrayList<Entity> slimeList
+- Chest chest1
+- RenderableHolder renderableHolder
+- House house
++ {static} GameLogic instance
++ <<Create>> GameLogic()
++ {static} GameLogic getInstance()
+- void setupGame()
++ void addNewObject(OBJ)
++ void removeObject(OBJ)
++ void logicUpdate()
+- void checkState()
+- void allObjectUpdate()
+- void slimeCheck()
+- void pickUpObject(int)
+- void checkHit()
+- void checkGameOver()
++ void addSlime()
+- void firstPhase()
+- void secondPhase()
+- void thirdPhase()
++ void clearSlime()
++ Player getPlayer()
++ List<OBJ> getGameObjectContainer()
++ Chest getChest1()
++ ArrayList<Entity> getSlimeList()
++ int getSpawnCounter()
++ void setSpawnCounter(int)
++ int getSlimeCounter()
++ void setSlimeCounter(int)
+}
+class object.items.SuperHammer {
++ <<Create>> SuperHammer()
++ int getPrice()
+}
+class object.weapon.NewbieShield {
++ <<Create>> NewbieShield()
+}
+class object.weapon.PowerfulShield {
++ <<Create>> PowerfulShield()
+}
+class main.Main {
+- double TIME_DILATION_FACTOR
+- long startTime
+- boolean firstTime
++ {static} MediaPlayer songPlayer
++ {static} URL menuMusic
++ void start(Stage)
+- {static} void fadeOutSound()
+- {static} void fadeInSound()
+}
+class utility.LoadUtility {
++ {static} Image down
++ {static} void playerLoad()
++ {static} void attackLoad()
++ {static} void slimeLoad()
+}
+class object.items.Chest {
+- ArrayList<Item> inventory
+- GraphicsContext gc
+- Player player
++ <<Create>> Chest(int,int)
++ void update()
+- void drawStoreFrame()
+- void pickUp(String)
++ boolean isVisible()
++ ArrayList<Item> getInventory()
+}
+interface interfacep.Storable {
+~ ArrayList<Item> getInventory()
+}
+abstract class object.Entity {
+# int speed
+- int strength
+# Rectangle solidArea
+# Rectangle attackArea
+# int solidAreaDefaultX
+# boolean isCollisionOn
+# String direction
+# boolean isInvincible
+# boolean isHpBarOn
+# boolean isAlive
+- boolean isDying
+# int invincibleCounter
+# int hpBarCounter
+# int dyingCounter
+- int life
+- int maxLife
++ <<Create>> Entity()
++ Rectangle getSolidArea()
++ void setSolidArea(Rectangle)
++ int getSolidAreaDefaultX()
++ void setSolidAreaDefaultX(int)
++ int getSolidAreaDefaultY()
++ void setSolidAreaDefaultY(int)
++ boolean isCollisionOn()
++ void setCollisionOn(boolean)
++ int getSpeed()
++ void setSpeed(int)
++ String getDirection()
++ void setDirection(String)
++ void setSideSpeed(int)
++ boolean isInvincible()
++ void setInvincible(boolean)
++ void update()
++ int getLife()
++ void setLife(int)
++ int getMaxLife()
++ void setMaxLife(int)
++ void setHpBarOn(boolean)
++ boolean isAlive()
++ void setAlive(boolean)
++ boolean isDying()
++ void setDying(boolean)
++ int getDyingCounter()
++ void setDyingCounter(int)
++ int getStrength()
++ void setStrength(int)
++ int getAttack()
++ void setAttack(int)
++ int getDefense()
++ void setDefense(int)
+}
+abstract class object.Thing {
+# int price
++ int getPrice()
+}
+class object.items.House {
+- int life
+# boolean isInvincible
+# int invincibleCounter
++ {static} House instance
++ <<Create>> House()
++ {static} House getInstance()
++ void draw(GraphicsContext)
++ void update()
++ void drawHPBar(GraphicsContext,int,int)
++ int getLife()
++ void setLife(int)
++ int getMaxLife()
++ void setMaxLife(int)
++ boolean isInvincible()
++ void setInvincible(boolean)
+}
+class object.potion.DexPotion {
++ <<Create>> DexPotion()
++ void use(Player)
+}
+interface interfacep.Sellable {
+~ int getPrice()
+}
+class object.items.NormalHammer {
++ <<Create>> NormalHammer()
++ int getPrice()
+}
+abstract class object.monster.Slime {
+- Player player
+- House house
+- boolean isKnockBack
+- boolean isAdded
+- int spriteCounter
+- int value
+- int spriteNum
+- int defaultSpeed
+- int knockBackCounter
+- GamePanel gp
+- Image def
+- URL slimeURL
++ <<Create>> Slime(int,int)
+# void playSlimeSound()
+- void setRectangle()
++ {abstract}void setStatus()
+- void up()
+- void down()
+- void left()
+- void right()
+- void upleft()
+- void upright()
+- void downright()
+- void downleft()
+- void follow(OBJ)
++ {abstract}void setAction()
++ void update()
+- void calculateDistance()
+- void knockbackAction()
++ {abstract}void draw(GraphicsContext)
++ {abstract}void drawDead(GraphicsContext)
++ void drawHPBar(GraphicsContext,int,int)
++ void setSpeed(int)
++ void setKnockBack(boolean)
++ Image getDef()
++ void setDef(Image)
++ int getSpriteCounter()
++ void setSpriteCounter(int)
++ int getSpriteNum()
++ void setSpriteNum(int)
++ Player getPlayer()
++ void setPlayer(Player)
+}
+class panel.Close {
+- Image closePic
++ <<Create>> Close()
+}
+abstract class object.items.BaseHammer {
+# int repairHealth
++ <<Create>> BaseHammer()
++ void use()
++ int getRepairHeath()
++ void setRepairHeath(int)
+}
+class utility.ObjectSetter {
+- GameLogic gl
+- House house
++ <<Create>> ObjectSetter(GameLogic)
++ void setObject()
+}
+abstract class object.weapon.BaseShield {
+# Image image
+# int defenseValue
+# int price
++ int getDefenseValue()
++ void setDefenseValue(int)
++ Image getImage()
++ int getPrice()
+}
+class panel.MenuPane {
+- Button play
+- Image background
+- Image playPic
+- Image infoPic
+- Image gifImage
+~ BackgroundImage backgroundImage
++ <<Create>> MenuPane()
++ void createTitle()
++ void setInfoButton()
++ VBox setPlayButton(ImageView)
++ void setButtonHover()
++ void setButton()
+}
+class object.Player {
++ int screenX
++ int screenY
+- int spriteCounter
+- int attackCounter
+- int spriteNum
+- int thirtyFiveCounter
+- boolean isAttack
+- URL swordURL
+- int strength
+- BaseWeapon currentWeapon
+- BaseShield currentShield
+- ArrayList<Item> inventory
++ {static} Player instance
+- GamePanel gp
+- Image def
+- Image attackDef
++ <<Create>> Player()
++ {static} Player getInstance()
+- void setSound()
+- void setItems()
+- void setRectangle()
+- void setStatus()
+- void up()
+- void down()
+- void left()
+- void right()
+- void upleft()
+- void upright()
+- void downright()
+- void downleft()
++ void statusCheck()
++ void update()
+- void attackCheck()
+- void playSwordSound()
+- void move()
+- void spriteCount()
++ void attackingCount()
++ void firstAttackCounter()
++ void secondAttackCounter()
++ void thirdAttackCounter()
++ void resetAttackCounter()
++ void findMonsterIndex()
++ void damageMonster(ArrayList<Integer>)
++ void knockBackSlime(Entity)
++ void draw(GraphicsContext)
++ int getStrength()
++ int getLevel()
++ int getDex()
++ int getAttack()
++ int getDefense()
++ int getExp()
++ int getNextLevelExp()
++ int getMoney()
++ void setCurrentWeapon(BaseWeapon)
++ void setCurrentShield(BaseShield)
++ void setSpeed(int)
++ void setStrength(int)
++ void setLevel(int)
++ void setDex(int)
++ void setAttack(int)
++ void setDefense(int)
++ void setExp(int)
++ void setNextLevelExp(int)
++ void setMoney(int)
++ BaseWeapon getCurrentWeapon()
++ BaseShield getCurrentShield()
++ int getScreenX()
++ int getScreenY()
++ ArrayList<Item> getInventory()
++ int getBuffSpeed()
++ void setBuffSpeed(int)
++ int getBuffDex()
++ void setBuffDex(int)
++ int getBuffStrength()
++ void setBuffStrength(int)
++ int getDefaultStrength()
++ void setDefaultStrength(int)
++ int getDefaultSpeed()
++ void setDefaultSpeed(int)
++ int getDefaultDex()
++ void setDefaultDex(int)
+}
+class object.weapon.LegendarySword {
++ <<Create>> LegendarySword()
+}
+class config.GameState {
++ {static} boolean isChestState
++ {static} boolean isStart
++ {static} boolean isNormalState
++ {static} boolean isNightState
++ {static} boolean isDayIncremented
++ {static} int traderPage
++ {static} Image dayPic
++ {static} void update()
+}
+interface render.Renderable {
+~ int getZ()
+~ void draw(GraphicsContext)
+~ boolean isVisible()
+~ boolean isDestroyed()
+}
+abstract class object.potion.Potion {
++ {abstract}void use(Player)
+}
+abstract class object.weapon.BaseWeapon {
+~ int price
+# Image image
+# int attackValue
++ int getAttackValue()
++ void setAttackValue(int)
++ Image getImage()
++ int getPrice()
+}
+class object.monster.BlueSlime {
+- Image slime_jump_1
+- Image slime_jump_2
+- Image slime_jump_3
++ <<Create>> BlueSlime(int,int)
++ void setStatus()
++ void setAction()
+- void setPicture()
++ void draw(GraphicsContext)
++ void drawDead(GraphicsContext)
+}
+class object.weapon.NewbieSword {
++ <<Create>> NewbieSword()
+}
+class object.monster.YellowSlime {
+- Image slime_jump_1
+- Image slime_jump_2
+- Image slime_jump_3
++ <<Create>> YellowSlime(int,int)
++ void setStatus()
++ void setAction()
+- void setPicture()
++ void draw(GraphicsContext)
++ void drawDead(GraphicsContext)
+}
+class panel.RootPane {
++ {static} RootPane instance
++ <<Create>> RootPane()
++ {static} RootPane getInstance()
+}
+class object.monster.PinkSlime {
+- Image slime_jump_1
+- Image slime_jump_2
+- Image slime_jump_3
++ <<Create>> PinkSlime(int,int)
++ void setStatus()
++ void setAction()
+- void setPicture()
++ void draw(GraphicsContext)
++ void drawDead(GraphicsContext)
+}
+class panel.Goto {
++ {static} void startGame()
++ {static} void infoScreen()
++ {static} void closeTab()
+}
+class object.weapon.IronShield {
++ <<Create>> IronShield()
+}
+class utility.CollisionChecker {
+- GamePanel gp
+- GameLogic gl
+- Player player
++ <<Create>> CollisionChecker(GamePanel,GameLogic)
++ void checkTile(Entity)
++ int checkObject(Entity,boolean)
++ ArrayList<Integer> checkSlime(Entity,ArrayList<Entity>)
++ boolean checkPlayer(Entity)
++ boolean checkHouse(Entity,House)
++ void setEntitySolidArea(Entity)
+}
+class panel.InfoPane {
+- Image page
++ <<Create>> InfoPane()
++ HBox createCloseButton()
++ VBox createMadeBy()
++ Label createLable(String)
+}
+class object.weapon.PowerfulSword {
++ <<Create>> PowerfulSword()
+}
+class panel.GamePanel {
++ {static} GamePanel instance
+- TileManager tileManager
++ GraphicsContext gc
++ UserInterface ui
++ CollisionChecker collisionChecker
++ <<Create>> GamePanel()
++ {static} GamePanel getInstance()
++ void paintComponent()
++ void addlistener()
++ TileManager getTileManager()
++ GraphicsContext getGc()
++ void setGc(GraphicsContext)
++ CollisionChecker getCollisionChecker()
+}
+class object.weapon.LegendaryShield {
++ <<Create>> LegendaryShield()
+}
+class render.RenderableHolder {
+- ArrayList<Renderable> objects
+- Comparator<Renderable> comparator
+- {static} RenderableHolder instance
++ <<Create>> RenderableHolder()
++ void remove(OBJ)
++ void add(Renderable)
++ {static} RenderableHolder getInstance()
++ ArrayList<Renderable> getObjects()
++ void update()
+}
+class utility.InputUtility {
+- {static} boolean isClicked
+- {static} boolean isKeyPressHandled
+- {static} ArrayList<KeyCode> keyPressed
++ {static} boolean isKeyPressed(KeyCode)
++ {static} void setKeyPressed(KeyCode,boolean)
++ {static} void setKeyTriggered(KeyCode,boolean)
++ {static} void setOneTimeTriggered(KeyCode,boolean)
+- {static} void checkPress(KeyCode)
+- {static} void traderCheck(KeyCode)
+- {static} void pressJ(KeyCode)
+- {static} void notPressJ(KeyCode)
++ {static} ArrayList<KeyCode> getKeyPressed()
+}
+class utility.InputUtility$MouseInputUtility {
+- {static} boolean isMouseClicked
++ {static} void handleMousePressed(MouseEvent)
++ {static} boolean isMouseClicked()
+}
+class object.weapon.IronSword {
++ <<Create>> IronSword()
+}
+class object.Trader {
++ {static} int optionCol
++ {static} int buyingRow
++ {static} int counter
+- Player player
+- GraphicsContext gc
+- ArrayList<Item> sellingItem
+- Font customFont
++ <<Create>> Trader()
++ void setItem()
++ void draw(GraphicsContext)
++ void update()
+- void checkPage()
++ void drawTradeFrame()
++ void drawSellScreen()
++ {static} void drawInfoScreen(GraphicsContext)
+- void drawBuyScreen()
+- void buy()
+- void showItem(int)
+- void selectedItem(int)
+- int sell()
++ void drawOptionFrame()
+}
+class utility.UserInterface {
+- GamePanel gp
+- Font customFont
+- Player p
++ {static} int leftSlotCol
++ {static} int leftSlotRow
++ {static} int rightSlotCol
++ {static} int rightSlotRow
+- Image defenseImage
+- Image speedImage
+- Image attackImage
++ <<Create>> UserInterface(GamePanel)
++ void drawHeart(GraphicsContext)
++ void draw(GraphicsContext)
++ void setAction()
++ void drawStatus(GraphicsContext)
++ void drawCharacterScreen(GraphicsContext)
++ {static} void drawSubWindow(int,int,int,int,GraphicsContext)
++ void drawStatusText(int,int,int,GraphicsContext)
++ void setStatusTextTitile(int,int,GraphicsContext)
++ void setStatusText(int,int,int,GraphicsContext)
++ {static} void drawMoney(GraphicsContext,Font,Player)
++ {static} String drawInventory(Storable,GraphicsContext,String)
++ {static} int checkSide(String)
++ {static} void drawSlot(int,int,Storable,GraphicsContext)
++ {static} void drawCursor(String,int,int,GraphicsContext)
++ {static} int getItemIndexOnSlot(String)
+}
+class tile.TileManager {
+- GamePanel gp
+- Player player
+- Tile[] tile
+- int[][] mapTileNum
++ <<Create>> TileManager(GamePanel)
++ void getTileImage()
++ void setHouse()
++ void loadMap()
++ void draw(GraphicsContext)
++ Tile[] getTile()
++ int[][] getMapTileNum()
+}
+class tile.Tile {
++ Image image
++ ImageView imageView
++ boolean collision
++ void makeScale(GamePanel)
++ ImageView getImageView()
++ boolean isCollision()
++ void setCollision(boolean)
+}
+abstract class object.items.Item {
+# Image image
+# String name
+# String description
+# boolean isCollision
+# boolean isInteracted
+# Player player
+# Rectangle solidArea
+# int solidAreaDefaultX
+# int solidAreaDefaultY
++ <<Create>> Item()
++ void draw(GraphicsContext)
++ Image getImage()
++ void setImage(Image)
++ String getName()
++ void setName(String)
++ boolean isCollision()
++ void setCollision(boolean)
++ Player getPlayer()
++ void setPlayer(Player)
++ String getDescription()
++ Rectangle getSolidArea()
++ int getSolidAreaDefaultX()
++ int getSolidAreaDefaultY()
++ boolean isInteracted()
++ void update()
++ void setInteracted(boolean)
+}
+class config.Status {
++ {static} boolean speedBuff
++ {static} boolean strengthBuff
++ {static} boolean dexBuff
+}
+class utility.Timer {
++ void drawTime(double,GraphicsContext)
+- String formatTime(long)
+- void drawFrame(GraphicsContext)
++ {static} void changePhase(String)
+}
+
+
+render.Renderable <|.. object.OBJ
+object.potion.Potion <|-- object.potion.SpeedPotion
+object.potion.Potion <|-- object.potion.StrengthPotion
+object.potion.Potion <|-- object.potion.HealthPotion
+object.items.BaseHammer <|-- object.items.SuperHammer
+object.weapon.BaseShield <|-- object.weapon.NewbieShield
+object.weapon.BaseShield <|-- object.weapon.PowerfulShield
+javafx.application.Application <|-- main.Main
+interfacep.Storable <|.. object.items.Chest
+object.items.Item <|-- object.items.Chest
+object.OBJ <|-- object.Entity
+interfacep.Sellable <|.. object.Thing
+object.items.Item <|-- object.Thing
+object.items.Item <|-- object.items.House
+object.potion.Potion <|-- object.potion.DexPotion
+object.items.BaseHammer <|-- object.items.NormalHammer
+object.Entity <|-- object.monster.Slime
+javafx.scene.control.Button <|-- panel.Close
+interfacep.Sellable <|.. object.items.BaseHammer
+object.items.Item <|-- object.items.BaseHammer
+object.Thing <|-- object.weapon.BaseShield
+panel.BorderPane <|-- panel.MenuPane
+interfacep.Storable <|.. object.Player
+object.Entity <|-- object.Player
+object.weapon.BaseWeapon <|-- object.weapon.LegendarySword
+object.Thing <|-- object.potion.Potion
+object.Thing <|-- object.weapon.BaseWeapon
+object.monster.Slime <|-- object.monster.BlueSlime
+object.weapon.BaseWeapon <|-- object.weapon.NewbieSword
+object.monster.Slime <|-- object.monster.YellowSlime
+javafx.scene.layout.StackPane <|-- panel.RootPane
+object.monster.Slime <|-- object.monster.PinkSlime
+object.weapon.BaseShield <|-- object.weapon.IronShield
+panel.VBox <|-- panel.InfoPane
+object.weapon.BaseWeapon <|-- object.weapon.PowerfulSword
+javafx.scene.canvas.Canvas <|-- panel.GamePanel
+object.weapon.BaseShield <|-- object.weapon.LegendaryShield
+utility.InputUtility +.. utility.InputUtility$MouseInputUtility
+object.weapon.BaseWeapon <|-- object.weapon.IronSword
+object.items.Item <|-- object.Trader
+object.OBJ <|-- object.items.Item
+@enduml
