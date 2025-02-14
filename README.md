@@ -34,4 +34,16 @@ To run the game, follow these steps:
 - ![JDK](https://img.shields.io/badge/Environment-JDK%2017-yellow)
   
 ## Screenshots
-(To be added by you – upload in the repository's README.md file as images or GIFs.)
+Here are some in-game screenshots:
+
+### Fight Scene
+![Fight Scene](screenshots/fight.png)
+
+### Menu
+![Menu](screenshots/menu.png)
+
+### Inventory
+![Inventory](screenshots/inventory.png)
+
+### Shop
+![Shop](screenshots/shop.png)
