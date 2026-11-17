@@ -10,19 +10,6 @@ Lost in Island is a JavaFX-based game developed purely in Java. Every system, in
 - Rendering & Drawing – Custom rendering system for game elements.
 - Combat & Interaction – Attack enemies and interact with the game world.
 - Monster AI – Basic enemy behaviors and interactions.
-## Installation & Setup
-To run the game, follow these steps:
-
-1. **Install Java SDK** - Ensure you have [Java JDK](https://www.oracle.com/java/technologies/javase-downloads.html) installed.
-
-2. **Clone the Repository**
-   ```sh
-   git clone https://github.com/yourusername/Lost-in-Island.git
-   cd Lost-in-Island
-3. **Run the Game**
-   ```sh
-   git clone https://github.com/yourusername/Lost-in-Island.git
-   cd Lost-in-Island
 ## Controls
 - WASD – Move the character
 - Spacebar – Attack
